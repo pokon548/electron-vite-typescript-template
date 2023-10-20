@@ -6,10 +6,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
-    "build:win": "tsc && vite build && electron-builder --win",
-    "build:mac": "tsc && vite build && electron-builder --mac",
-    "build:linux": "tsc && vite build && electron-builder --linux",
+    "build": "tsc && pnpm -C native build && vite build && electron-builder",
+    "build:win": "tsc && pnpm -C native build:win && vite build && electron-builder --win",
+    "build:win-arm64": "tsc && pnpm -C native build:win-arm64 && vite build && electron-builder --win --arm64",
+    "build:linux": "tsc && pnpm -C native build:linux && vite build && electron-builder --linux",
+    "build:linux-arm64": "tsc && pnpm -C native build:linux-arm64 && vite build && electron-builder --linux --arm64",
+    "build:native": "pnpm -C native build",
     "knip": "knip",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -17,7 +19,8 @@
   "dependencies": {
     "native": "link:native/dist",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "simplebar-react": "^3.2.4"
   },
   "devDependencies": {
     "@napi-rs/cli": "^2.16.3",

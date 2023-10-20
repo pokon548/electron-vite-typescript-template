@@ -16,6 +16,7 @@
     "@napi-rs/cli": "^2.16.3",
     "ava": "^5.1.1",
     "cpy-cli": "^5.0.0",
+    "del-cli": "^5.1.0",
     "make-dir-cli": "^3.1.0"
   },
   "ava": {
@@ -26,10 +27,17 @@
   },
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release && pnpm build:out",
-    "build:win": "napi build --platform --release --target x86_64-pc-windows-msvc && pnpm build:out",
+    "build": "del *.node dist && napi build --platform --release && pnpm build:out && cpy *.node dist/",
+    "build:win": "del *.node dist && napi build --platform --release --target x86_64-pc-windows-msvc && pnpm build:out:win",
+    "build:win-arm64": "del *.node dist && napi build --platform --release --target aarch64-pc-windows-msvc && pnpm build:out:win-arm64",
+    "build:linux": "del *.node dist && napi build --platform --release --target x86_64-unknown-linux-gnu && pnpm build:out:linux",
+    "build:linux-arm64": "del *.node dist && napi build --platform --release --target aarch64-unknown-linux-gnu && pnpm build:out:linux-arm64",
     "build:debug": "napi build --platform",
-    "build:out": "make-dir dist && cpy package.json dist/ && cpy index.d.ts dist/ && cpy index.js dist/ && cpy *.node dist/",
+    "build:out": "make-dir dist && cpy package.json dist/ && cpy index.d.ts dist/ && cpy index.js dist/",
+    "build:out:win": "pnpm build:out && cpy native.win32-x64-msvc.node dist/",
+    "build:out:win-arm64": "pnpm build:out && cpy native.win32-arm64-msvc.node dist/",
+    "build:out:linux": "pnpm build:out && cpy native.linux-x64-gnu.node dist/",
+    "build:out:linux-arm64": "pnpm build:out && cpy native.linux-arm64-gnu.node dist/",
     "prepublishOnly": "napi prepublish -t npm",
     "test": "ava",
     "universal": "napi universal",
