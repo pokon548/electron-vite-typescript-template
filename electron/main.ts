@@ -11,6 +11,8 @@ import path from "node:path";
 // │ │ └── preload.js
 // │
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
+process.env.DIST = path.join(__dirname, '../dist')
+
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
 
 function createWindow() {
